@@ -6,6 +6,7 @@ import com.pickurapps.carrentalback.entities.User;
 import com.pickurapps.carrentalback.enums.UserRole;
 import com.pickurapps.carrentalback.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,7 @@ public class AuthServiceImpl implements AuthService {
         User user = new User();
         user.setName(registerRequest.getName());
         user.setEmail(registerRequest.getEmail());
-        user.setPassword(registerRequest.getPassword());
+        user.setPassword(new BCryptPasswordEncoder().encode(registerRequest.getPassword()));
         user.setUserRole(UserRole.CUSTOMER);
         User createdUser = userRepository.save(user);
         UserDto userDto = new UserDto();
