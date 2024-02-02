@@ -5,6 +5,7 @@ import com.pickurapps.carrentalback.dto.UserDto;
 import com.pickurapps.carrentalback.entities.User;
 import com.pickurapps.carrentalback.enums.UserRole;
 import com.pickurapps.carrentalback.repositories.UserRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,20 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
+
+    @PostConstruct
+    public void createAdminAccount() {
+        User adminAccount = userRepository.findByUserRole(UserRole.ADMIN);
+        if (adminAccount == null) {
+            User newAdminAccount = new User();
+            newAdminAccount.setName("Admin");
+            newAdminAccount.setEmail("admin@admin.com");
+            newAdminAccount.setPassword(new BCryptPasswordEncoder().encode("admin"));
+            newAdminAccount.setUserRole(UserRole.ADMIN);
+            userRepository.save(newAdminAccount);
+            System.out.println("Admin account created successfully!");
+        }
+    }
 
     @Override
     public UserDto createCustomer(RegisterRequest registerRequest) {
