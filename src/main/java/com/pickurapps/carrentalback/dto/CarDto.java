@@ -8,6 +8,7 @@ import java.util.Date;
 @Data
 public class CarDto {
     private Long id;
+
     private String brand;
     private String color;
     private String name;
