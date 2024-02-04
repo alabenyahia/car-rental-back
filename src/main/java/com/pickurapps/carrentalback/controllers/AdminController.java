@@ -36,4 +36,12 @@ public class AdminController {
         adminService.deleteCar(id);
         return ResponseEntity.ok(null);
     }
+
+    @GetMapping("/car/{id}")
+    public ResponseEntity<CarDto> getCarById(@PathVariable Long id) {
+        CarDto carDto = adminService.getCarById(id);
+
+        return ResponseEntity.ok(carDto);
+
+    }
 }
