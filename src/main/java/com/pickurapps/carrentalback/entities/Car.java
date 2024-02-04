@@ -1,5 +1,6 @@
 package com.pickurapps.carrentalback.entities;
 
+import com.pickurapps.carrentalback.dto.CarDto;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,4 +26,20 @@ public class Car {
 
     @Column(columnDefinition = "longblob")
     private byte[] image;
+
+    public CarDto getCarDto() {
+        CarDto carDto = new CarDto();
+        carDto.setId(id);
+        carDto.setName(name);
+        carDto.setBrand(brand);
+        carDto.setColor(color);
+        carDto.setPrice(price);
+        carDto.setDescription(description);
+        carDto.setType(type);
+        carDto.setTransmission(transmission);
+        carDto.setYear(year);
+        carDto.setReturnedImage(image);
+
+        return carDto;
+    }
 }
