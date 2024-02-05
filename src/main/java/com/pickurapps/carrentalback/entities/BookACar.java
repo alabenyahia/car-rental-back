@@ -1,6 +1,7 @@
 package com.pickurapps.carrentalback.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pickurapps.carrentalback.dto.BookACarDto;
 import com.pickurapps.carrentalback.enums.BookCarStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -34,4 +35,20 @@ public class BookACar {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Car car;
+
+    public BookACarDto getBookACarDto() {
+        BookACarDto bookACarDto = new BookACarDto();
+        bookACarDto.setId(id);
+        bookACarDto.setDays(days);
+        bookACarDto.setBookCarStatus(bookCarStatus);
+        bookACarDto.setPrice(price);
+        bookACarDto.setToDate(toDate);
+        bookACarDto.setFromDate(fromDate);
+        bookACarDto.setEmail(user.getEmail());
+        bookACarDto.setUsername(user.getUsername());
+        bookACarDto.setUserId(user.getId());
+        bookACarDto.setCarId(car.getId());
+
+        return bookACarDto;
+    }
 }
