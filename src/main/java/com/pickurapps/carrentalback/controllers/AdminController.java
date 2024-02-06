@@ -2,6 +2,7 @@ package com.pickurapps.carrentalback.controllers;
 
 import com.pickurapps.carrentalback.dto.BookACarDto;
 import com.pickurapps.carrentalback.dto.CarDto;
+import com.pickurapps.carrentalback.dto.CarSearchDto;
 import com.pickurapps.carrentalback.services.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
@@ -69,5 +70,10 @@ public class AdminController {
         boolean success = adminService.changeBookingStatus(bookingId, status);
         if (success) return ResponseEntity.ok().build();
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/car/search")
+    public ResponseEntity<?> searchCar(@RequestBody CarSearchDto carSearchDto) {
+        return ResponseEntity.ok(adminService.searchCar(carSearchDto));
     }
 }

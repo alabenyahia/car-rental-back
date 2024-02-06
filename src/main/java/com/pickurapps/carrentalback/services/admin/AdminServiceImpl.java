@@ -2,12 +2,16 @@ package com.pickurapps.carrentalback.services.admin;
 
 import com.pickurapps.carrentalback.dto.BookACarDto;
 import com.pickurapps.carrentalback.dto.CarDto;
+import com.pickurapps.carrentalback.dto.CarDtoListDto;
+import com.pickurapps.carrentalback.dto.CarSearchDto;
 import com.pickurapps.carrentalback.entities.BookACar;
 import com.pickurapps.carrentalback.entities.Car;
 import com.pickurapps.carrentalback.enums.BookCarStatus;
 import com.pickurapps.carrentalback.repositories.BookACarRepository;
 import com.pickurapps.carrentalback.repositories.CarRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -100,5 +104,25 @@ public class AdminServiceImpl implements AdminService{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public CarDtoListDto searchCar(CarSearchDto carSearchDto) {
+        Car car = new Car();
+        car.setBrand(carSearchDto.getBrand());
+        car.setType(carSearchDto.getType());
+        car.setTransmission(carSearchDto.getTransmission());
+        car.setColor(carSearchDto.getColor());
+
+        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll()
+                .withMatcher("brand", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("type", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("transmission", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("color", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+        Example<Car> carExample = Example.of(car, exampleMatcher);
+        List<Car> carList = carRepository.findAll(carExample);
+        CarDtoListDto carDtoListDto = new CarDtoListDto();
+        carDtoListDto.setCarDtoList(carList.stream().map(Car::getCarDto).collect(Collectors.toList()));
+        return carDtoListDto;
     }
 }
