@@ -1,5 +1,6 @@
 package com.pickurapps.carrentalback.services.admin;
 
+import com.pickurapps.carrentalback.dto.BookACarDto;
 import com.pickurapps.carrentalback.dto.CarDto;
 
 import java.io.IOException;
@@ -11,4 +12,7 @@ public interface AdminService {
     void deleteCar(Long id);
     CarDto getCarById(Long id);
     boolean updateCar(Long carId, CarDto carDto) throws IOException;
+    List<BookACarDto> getBookings();
+    boolean changeBookingStatus(Long bookingId, String status);
+
 }
